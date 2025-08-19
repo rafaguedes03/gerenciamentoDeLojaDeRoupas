@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+
+<AnchorPane prefHeight="720" prefWidth="1280" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.amor_de_mamae.controller.LoginController">
+
+    <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#c9c9c9" height="205.0" layoutX="506.0" layoutY="258.0" stroke="BLACK" strokeType="INSIDE" width="318.0" />
+        <Label layoutX="531.0" layoutY="310.0" text="Usuário:" />
+        <TextField fx:id="txtUsuario" layoutX="601.0" layoutY="305.0" />
+
+        <Label layoutX="531.0" layoutY="350.0" text="Senha:" />
+        <PasswordField fx:id="txtSenha" layoutX="601.0" layoutY="345.0" />
+
+        <Button layoutX="641.0" layoutY="390.0" onAction="#entrar" text="Entrar" />
+    </children>
+</AnchorPane>
