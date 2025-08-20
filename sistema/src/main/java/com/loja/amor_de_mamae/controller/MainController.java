@@ -6,16 +6,21 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.stage.Stage;
+import javafx.scene.layout.Pane;
+import javafx.event.ActionEvent;
 
 public class MainController {
 
+    @FXML private Pane paneConteudo;
+
+
     // Botões laterais
-    @FXML private Button btn_cadastrar_produto;
-    @FXML private Button btn_cadastrar_cliente;
-    @FXML private Button btn_relatorios;
-    @FXML private Button btn_vendas;
-    @FXML private Button btn_visualizar_fiados;
-    @FXML private Button btn_exit;
+    @FXML private Button btnCadastrarProduto;
+    @FXML private Button btnCadastrarCliente;
+    @FXML private Button btnRelatorios;
+    @FXML private Button btnVendas;
+    @FXML private Button btnFiados;
+    @FXML private Button btnSair;
 
     // TabPane e abas
     @FXML private TabPane mainTabPane;
@@ -31,33 +36,64 @@ public class MainController {
         this.usuarioLogado = usuario;
         ajustarBotoesPorPerfil();
         configurarEventosBotoes();
-    }
+        }
 
-    private void ajustarBotoesPorPerfil() {
+        private void ajustarBotoesPorPerfil() {
         if (usuarioLogado.getPerfil().equals("FUNCIONARIO")) {
-            btn_cadastrar_produto.setVisible(false);
-            btn_cadastrar_cliente.setVisible(false);
-            btn_relatorios.setVisible(false);
+            btnCadastrarProduto.setVisible(false);
+            btnCadastrarCliente.setVisible(false);
+            btnRelatorios.setVisible(false);
         }
         // ADMIN mantém todos os botões visíveis
-    }
+        }
 
-    private void configurarEventosBotoes() {
-        btn_vendas.setOnAction(e -> mainTabPane.getSelectionModel().select(vendasTab));
-        btn_cadastrar_produto.setOnAction(e -> mainTabPane.getSelectionModel().select(cadastrarProdutosTab));
-        btn_cadastrar_cliente.setOnAction(e -> mainTabPane.getSelectionModel().select(cadastrarClientesTab));
-        btn_visualizar_fiados.setOnAction(e -> mainTabPane.getSelectionModel().select(fiadosTab));
-        btn_relatorios.setOnAction(e -> mainTabPane.getSelectionModel().select(relatoriosTab));
-        btn_exit.setOnAction(e -> sair());
-    }
+        private void configurarEventosBotoes() {
+        btnVendas.setOnAction(e -> mainTabPane.getSelectionModel().select(vendasTab));
+        btnCadastrarProduto.setOnAction(e -> mainTabPane.getSelectionModel().select(cadastrarProdutosTab));
+        btnCadastrarCliente.setOnAction(e -> mainTabPane.getSelectionModel().select(cadastrarClientesTab));
+        btnFiados.setOnAction(e -> mainTabPane.getSelectionModel().select(fiadosTab));
+        btnRelatorios.setOnAction(e -> mainTabPane.getSelectionModel().select(relatoriosTab));
+        btnSair.setOnAction(e -> exit());
+        }
 
-    @FXML
-    private void sair() {
+        // Lista de métodos para cada aba
+        @FXML
+        private void abrirVendas() {
+        // Lógica para abrir a aba de vendas
+        mainTabPane.getSelectionModel().select(vendasTab);
+        }
+
+        @FXML
+        private void abrirCadastrarProduto() {
+        // Lógica para cadastrar produto
+        mainTabPane.getSelectionModel().select(cadastrarProdutosTab);
+        }
+
+        @FXML
+        private void abrirCadastrarCliente() {
+        // Lógica para cadastrar cliente   
+        mainTabPane.getSelectionModel().select(cadastrarClientesTab);
+        }
+
+        @FXML
+        private void abrirFiados() {
+        // Lógica para visualizar fiados
+        mainTabPane.getSelectionModel().select(fiadosTab);
+        }
+
+        @FXML
+        private void abrirRelatorios() {
+        // Lógica para gerar relatórios
+        mainTabPane.getSelectionModel().select(relatoriosTab);
+        }
+
+
+        @FXML
+        private void exit() {
         // Lógica para sair do sistema ou voltar para login
-        Stage stage = (Stage) btn_exit.getScene().getWindow();
+        Stage stage = (Stage) btnSair.getScene().getWindow();
         stage.close();
         System.exit(0);
-    }
+        }
 
-    // Aqui você pode adicionar outros métodos relacionados às abas
-}
+    }// Aqui você pode adicionar outros métodos relacionados às abas

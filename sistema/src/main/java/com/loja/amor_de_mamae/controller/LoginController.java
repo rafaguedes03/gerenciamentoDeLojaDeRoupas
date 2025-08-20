@@ -21,14 +21,12 @@ public class LoginController {
         if (u != null) {
             try {
                 Stage stage = (Stage) txtUsuario.getScene().getWindow();
-                FXMLLoader loader;
-
-                MainController mainController = new MainController();
-                mainController.setUsuario(u);
-                loader = new FXMLLoader(getClass().getResource("/com/loja/amor_de_mamae/view/main.fxml"));
-                loader.setController(mainController);
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/loja/amor_de_mamae/view/main.fxml"));
 
                 stage.setScene(new Scene(loader.load()));
+
+                MainController mainController = loader.getController();
+                mainController.setUsuario(u);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
