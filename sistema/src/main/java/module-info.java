@@ -6,6 +6,8 @@ module com.loja.amor_de_mamae {
 
     opens com.loja.amor_de_mamae to javafx.fxml;
     opens com.loja.amor_de_mamae.controller to javafx.fxml;
+    opens com.loja.amor_de_mamae.model to javafx.base, javafx.fxml;
+
 
     exports com.loja.amor_de_mamae;
     exports com.loja.amor_de_mamae.controller;

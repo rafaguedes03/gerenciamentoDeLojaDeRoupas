@@ -3,8 +3,9 @@ package com.loja.amor_de_mamae.model;
 public class Usuario {
     private int id;
     private String nome;
+    private String login;
     private String senha;
-    private String perfil; // "ADMIN" ou "FUNCIONARIO"
+    private String tipo; // "ADMIN" ou "FUNCIONARIO"
 
     // getters e setters
     public int getId() {
@@ -19,17 +20,23 @@ public class Usuario {
     public void setNome(String nome) {
         this.nome = nome;
     }
+    public String getLogin() {
+        return login;
+    }
+    public void setLogin(String login) {
+        this.login = login;
+    }
     public String getSenha() {
         return senha;
     }
     public void setSenha(String senha) {
         this.senha = senha;
     }
-    public String getPerfil() {
-        return perfil;
+    public String getTipo() {
+        return tipo;
     }
-    public void setPerfil(String perfil) {
-        this.perfil = perfil;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
     
 }
