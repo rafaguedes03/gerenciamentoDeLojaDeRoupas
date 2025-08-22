@@ -21,7 +21,7 @@ public class LoginController {
         if (u != null) {
             try {
                 Stage stage = (Stage) txtUsuario.getScene().getWindow();
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/loja/amor_de_mamae/view/main.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/loja/amor_de_mamae/view/Main.fxml"));
 
                 stage.setScene(new Scene(loader.load()));
 

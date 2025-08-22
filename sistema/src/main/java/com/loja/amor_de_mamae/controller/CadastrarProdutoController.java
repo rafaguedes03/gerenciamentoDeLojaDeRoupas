@@ -1,12 +1,15 @@
 package com.loja.amor_de_mamae.controller;
 
+import com.loja.amor_de_mamae.dao.EstoqueDAO;
 import com.loja.amor_de_mamae.dao.ProdutoDAO;
+import com.loja.amor_de_mamae.model.Estoque;
 import com.loja.amor_de_mamae.model.Produto;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import com.loja.amor_de_mamae.dao.ProdutoEstoqueDAO;
 
 public class CadastrarProdutoController {
 
@@ -16,15 +19,16 @@ public class CadastrarProdutoController {
     @FXML private TextField inputTamanho;
     @FXML private TextField inputQuantidade;
 
-    @FXML private TableView<Produto> tableView;
-    @FXML private TableColumn<Produto, String> nomeTableView;
-    @FXML private TableColumn<Produto, String> codigoTableView;
-    @FXML private TableColumn<Produto, Double> precoTableView;
-    @FXML private TableColumn<Produto, String> tamanhoTableView;
-    @FXML private TableColumn<Produto, Integer> quantidadeTableView;
+    @FXML private TableView<ProdutoEstoqueDAO> tableView;
+    @FXML private TableColumn<ProdutoEstoqueDAO, String> nomeTableView;
+    @FXML private TableColumn<ProdutoEstoqueDAO, String> codigoTableView;
+    @FXML private TableColumn<ProdutoEstoqueDAO, Double> precoTableView;
+    @FXML private TableColumn<ProdutoEstoqueDAO, String> tamanhoTableView;
+    @FXML private TableColumn<ProdutoEstoqueDAO, Integer> quantidadeTableView;
 
-    private ObservableList<Produto> listaProdutos;
+    private ObservableList<ProdutoEstoqueDAO> listaProdutos;
     private ProdutoDAO produtoDAO = new ProdutoDAO();
+    private EstoqueDAO estoqueDAO = new EstoqueDAO();
 
     @FXML
     public void initialize() throws Exception {
@@ -42,6 +46,7 @@ public class CadastrarProdutoController {
     @FXML
     private void btnCadastrarProduto() {
         try {
+            // coletar dados dos campos
             String codigo = inputCodigo.getText();
             String nome = inputNome.getText();
             double preco = Double.parseDouble(inputPreco.getText());
@@ -53,15 +58,14 @@ public class CadastrarProdutoController {
                 return;
             }
 
-            Produto p = new Produto();
-            p.setCodigo(codigo);
-            p.setNome(nome);
-            p.setPreco(preco);
-            p.setTamanho(tamanho);
-            p.setQuantidade(quantidade);
+            Produto p = new Produto(nome, codigo, preco);
+            produtoDAO.salvar(p); // metodo salvar do ProdutoDAO e retorna o id do produto
+            int idProduto = p.getIdProduto(); // pega o id do produto salvo
 
-            produtoDAO.salvar(p);
+            Estoque estoque = new Estoque(idProduto, tamanho, quantidade);
+            estoqueDAO.salvar(estoque); // salva o estoque com o id do produto
 
+            
             mostrarAlerta("Sucesso", "Produto cadastrado com sucesso!", Alert.AlertType.INFORMATION);
 
             limparCampos();
@@ -76,7 +80,9 @@ public class CadastrarProdutoController {
     }
 
     private void carregarProdutos() throws Exception {
-        listaProdutos = FXCollections.observableArrayList(produtoDAO.listar());
+        // O método listar() do ProdutoDAO precisará ser alterado para fazer um JOIN entre Produtos e Estoque e retornar uma lista de ProdutoEstoqueDTO
+        listaProdutos = FXCollections.observableArrayList(produtoDAO.listarComEstoque());
+        // Atualizar a tabela com os dados
         tableView.setItems(listaProdutos);
     }
 

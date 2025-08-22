@@ -8,6 +8,14 @@ public class Produto {
     private String tamanho; // Adicionando o campo tamanho
     private int quantidade;
     
+
+    // Construtor salvar 
+    public Produto(String nome, String codigo, double preco) {
+        this.nome = nome;
+        this.codigo = codigo;
+        this.preco = preco;
+    }
+
     // getters e setters
     public int getIdProduto() {
         return id_produto;
