@@ -15,8 +15,8 @@ import com.loja.amor_de_mamae.dao.CaixaDAO;
 public class MainController {
 
     @FXML private Button btnVendas;
-    @FXML private Button btnCadastrarProduto;
-    @FXML private Button btnCadastrarCliente;
+    @FXML private Button btnProdutos;
+    @FXML private Button btnClientes;
     @FXML private Button btnFiados;
     @FXML private Button btnRelatorios;
     @FXML private Button btnSair;
@@ -32,12 +32,10 @@ public class MainController {
         ajustarBotoesPorPerfil();
     }
 
-    // Esconde botões se for funcionário
+    // Desabilita botões se for funcionário
     private void ajustarBotoesPorPerfil() {
         if (usuarioLogado != null && "Funcionario".equalsIgnoreCase(usuarioLogado.getTipo())) {
-            btnCadastrarProduto.setVisible(false);
-            btnCadastrarCliente.setVisible(false);
-            btnRelatorios.setVisible(false);
+            btnRelatorios.setDisable(true);
         }
     }
 

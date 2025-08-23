@@ -1,5 +1,6 @@
 package com.loja.amor_de_mamae.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class ParcelaFiado {
@@ -7,9 +8,19 @@ public class ParcelaFiado {
     private int id_fiado;
     private int numero_parcela;
     private double valor_parcela;
-    private LocalDateTime data_vencimento;
+    private LocalDate data_vencimento;
     private String status; //ENUM('a vencer','vencida','paga') DEFAULT 'a vencer',
 
+    // Construtores
+    public ParcelaFiado() {}
+
+    public ParcelaFiado(int id_fiado, int numero_parcela, double valor_parcela, LocalDate data_vencimento, String status) {
+        this.id_fiado = id_fiado;
+        this.numero_parcela = numero_parcela;
+        this.valor_parcela = valor_parcela;
+        this.data_vencimento = data_vencimento;
+        this.status = "a vencer";
+    }
 
     public int getId_parcela() {
         return id_parcela;
@@ -35,10 +46,10 @@ public class ParcelaFiado {
     public void setValor_parcela(double valor_parcela) {
         this.valor_parcela = valor_parcela;
     }
-    public LocalDateTime getData_vencimento() {
+    public LocalDate getData_vencimento() {
         return data_vencimento;
     }
-    public void setData_vencimento(LocalDateTime data_vencimento) {
+    public void setData_vencimento(LocalDate data_vencimento) {
         this.data_vencimento = data_vencimento;
     }
     public String getStatus() {

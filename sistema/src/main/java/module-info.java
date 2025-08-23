@@ -3,6 +3,7 @@ module com.loja.amor_de_mamae {
     requires javafx.fxml;
     requires javafx.graphics;
     requires java.sql;
+    requires itextpdf;
 
     opens com.loja.amor_de_mamae to javafx.fxml;
     opens com.loja.amor_de_mamae.controller to javafx.fxml;

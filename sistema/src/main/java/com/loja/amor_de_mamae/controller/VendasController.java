@@ -307,6 +307,16 @@ public class VendasController {
                 int idVenda = vendaDAO.salvarVenda(venda, itensList);
                 
                 mostrarAlerta("Sucesso", "Venda registrada com sucesso! ID: " + idVenda, Alert.AlertType.INFORMATION);
+                // No método registrarVenda(), após salvar a venda:
+                if ("Fiado".equals(formaDePagamento.getValue())) {
+                    try {
+                        FiadoDAO fiadoDAO = new FiadoDAO();
+                        fiadoDAO.criarFiado(idVenda, numParcelas.getValue(), totalVenda);
+                    } catch (Exception e) {
+                        mostrarAlerta("Aviso", "Venda registrada, mas ocorreu um erro ao criar o fiado: " + e.getMessage(), Alert.AlertType.WARNING);
+                        e.printStackTrace();
+                    }
+                }
                 limparVenda();
             }
 

@@ -42,7 +42,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button fx:id="btnCadastrarProduto" layoutX="50.0" layoutY="125.0" mnemonicParsing="false" onAction="#abrirCadastrarProduto" prefHeight="57.0" prefWidth="279.0" style="-fx-background-color: #fff;" text="PRODUTOS">
+                        <Button fx:id="btnProdutos" layoutX="50.0" layoutY="125.0" mnemonicParsing="false" onAction="#abrirCadastrarProduto" prefHeight="57.0" prefWidth="279.0" style="-fx-background-color: #fff;" text="PRODUTOS">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -57,7 +57,7 @@
                               <Cursor fx:constant="HAND" />
                            </cursor>
                         </Button>
-                        <Button fx:id="btnCadastrarCliente" layoutX="50.0" layoutY="199.0" mnemonicParsing="false" onAction="#abrirCadastrarCliente" prefHeight="57.0" prefWidth="279.0" style="-fx-background-color: #fff;" text="CLIENTES">
+                        <Button fx:id="btnClientes" layoutX="50.0" layoutY="199.0" mnemonicParsing="false" onAction="#abrirCadastrarCliente" prefHeight="57.0" prefWidth="279.0" style="-fx-background-color: #fff;" text="CLIENTES">
                            <font>
                               <Font size="24.0" />
                            </font>
