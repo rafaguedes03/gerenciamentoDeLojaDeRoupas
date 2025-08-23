@@ -1,35 +1,118 @@
 package com.loja.amor_de_mamae.dao;
 
+import com.loja.amor_de_mamae.dao.ProdutoEstoqueDAO;
 import com.loja.amor_de_mamae.model.Produto;
-import com.loja.amor_de_mamae.dao.ProdutoEstoqueDAO; // Importar a nova classe DAO
+import com.loja.amor_de_mamae.util.ConexaoMySQL;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ProdutoDAO {
     
-    // Método para salvar um Produto e retornar o ID gerado
-    public void salvar(Produto p) throws Exception {
-        String sql = "INSERT INTO Produtos (codigo, nome, preco) VALUES (?, ?, ?)";
+    public List<ProdutoEstoqueDAO> buscarProdutosComEstoque(String termo) throws Exception {
+        List<ProdutoEstoqueDAO> produtos = new ArrayList<>();
+        String sql = "SELECT e.id_estoque, p.id_produto, p.nome, p.codigo, p.preco, e.tamanho, e.quantidade " +
+                     "FROM Produtos p JOIN Estoque e ON p.id_produto = e.id_produto " +
+                     "WHERE (p.nome LIKE ? OR p.codigo LIKE ?) AND e.quantidade > 0 " +
+                     "ORDER BY p.nome";
         
-        // A flag RETURN_GENERATED_KEYS é crucial para obter o ID gerado
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, "%" + termo + "%");
+            stmt.setString(2, "%" + termo + "%");
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    ProdutoEstoqueDAO dto = new ProdutoEstoqueDAO();
+                    dto.setId_estoque(rs.getInt("id_estoque"));
+                    dto.setId_produto(rs.getInt("id_produto"));
+                    dto.setNome(rs.getString("nome"));
+                    dto.setCodigo(rs.getString("codigo"));
+                    dto.setPreco(rs.getDouble("preco"));
+                    dto.setTamanho(rs.getString("tamanho"));
+                    dto.setQuantidade(rs.getInt("quantidade"));
+                    produtos.add(dto);
+                }
+            }
+        }
+        return produtos;
+    }
+    
+    public ProdutoEstoqueDAO buscarProdutoPorIdEstoque(int idEstoque) throws Exception {
+        String sql = "SELECT e.id_estoque, p.id_produto, p.nome, p.codigo, p.preco, e.tamanho, e.quantidade " +
+                     "FROM Produtos p JOIN Estoque e ON p.id_produto = e.id_produto " +
+                     "WHERE e.id_estoque = ?";
+        
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, idEstoque);
+            
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    ProdutoEstoqueDAO dto = new ProdutoEstoqueDAO();
+                    dto.setId_estoque(rs.getInt("id_estoque"));
+                    dto.setId_produto(rs.getInt("id_produto"));
+                    dto.setNome(rs.getString("nome"));
+                    dto.setCodigo(rs.getString("codigo"));
+                    dto.setPreco(rs.getDouble("preco"));
+                    dto.setTamanho(rs.getString("tamanho"));
+                    dto.setQuantidade(rs.getInt("quantidade"));
+                    return dto;
+                }
+            }
+        }
+        return null;
+    }
+
+    // metodo para excluir produto
+    public void excluir(int idProduto) throws Exception {
+        String sql = "DELETE FROM Produtos WHERE id_produto = ?";
+        
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setInt(1, idProduto);
+            stmt.executeUpdate();
+        }
+    }
+
+    public void atualizar(Produto produto) throws Exception {
+        String sql = "UPDATE Produtos SET nome = ?, codigo = ?, preco = ? WHERE id_produto = ?";
+        
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
+            stmt.setString(1, produto.getNome());
+            stmt.setString(2, produto.getCodigo());
+            stmt.setDouble(3, produto.getPreco());
+            stmt.setInt(4, produto.getIdProduto());
+            stmt.executeUpdate();
+        }
+    }
+
+    public void salvar(Produto produto) throws Exception {
+        String sql = "INSERT INTO Produtos (nome, codigo, preco) VALUES (?, ?, ?)";
+        
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             
-            stmt.setString(1, p.getCodigo());
-            stmt.setString(2, p.getNome());
-            stmt.setDouble(3, p.getPreco());
+            stmt.setString(1, produto.getNome());
+            stmt.setString(2, produto.getCodigo());
+            stmt.setDouble(3, produto.getPreco());
             stmt.executeUpdate();
-
+            
             try (ResultSet rs = stmt.getGeneratedKeys()) {
                 if (rs.next()) {
-                    p.setIdProduto(rs.getInt(1));
+                    produto.setIdProduto(rs.getInt(1));
                 }
             }
         }
     }
 
-    // Método para listar produtos com os dados de estoque
+    // listar produtos com estoque
     public List<ProdutoEstoqueDAO> listarComEstoque() throws Exception {
         List<ProdutoEstoqueDAO> produtos = new ArrayList<>();
         String sql = "SELECT p.id_produto, p.codigo, p.nome, p.preco, e.tamanho, e.quantidade " +
@@ -51,22 +134,5 @@ public class ProdutoDAO {
             }
         }
         return produtos;
-    }
-
-    // Método para buscar um produto por código
-    public Produto buscarPorCodigo(String codigo) throws Exception {
-        String sql = "SELECT * FROM Produtos WHERE codigo = ?";
-        try (Connection conn = ConnectionFactory.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, codigo);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    Produto p = new Produto(rs.getString("nome"), rs.getString("codigo"), rs.getDouble("preco"));
-                    p.setIdProduto(rs.getInt("id_produto"));
-                    return p;
-                }
-            }
-        }
-        return null;
     }
 }

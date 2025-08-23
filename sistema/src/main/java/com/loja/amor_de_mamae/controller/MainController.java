@@ -4,9 +4,12 @@ import com.loja.amor_de_mamae.model.Usuario;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import com.loja.amor_de_mamae.dao.CaixaDAO;
 
 public class MainController {
@@ -44,7 +47,7 @@ public class MainController {
         if(caixaDAO.isCaixaAberto()){
             carregarTela("/com/loja/amor_de_mamae/view/Vendas.fxml");
         } else {
-            carregarTela("/com/loja/amor_de_mamae/view/AbrirCaixa.fxml");
+            abrirTelaAbrirCaixa();
         }
     }
 
@@ -74,8 +77,41 @@ public class MainController {
         System.exit(0);
     }
 
+    // Método para abrir a tela de abrir caixa em uma janela modal
+    private void abrirTelaAbrirCaixa() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/loja/amor_de_mamae/view/AbrirCaixa.fxml"));
+            Pane pane = loader.load();
+            
+            // Obtém o controller da tela de caixa
+            CaixaController caixaController = loader.getController();
+            caixaController.setMainController(this); // Passa a referência deste controller
+            
+            Stage stage = new Stage();
+            stage.setTitle("Abrir Caixa");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(pane));
+            stage.setResizable(false);
+            stage.showAndWait();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlertaErro("Erro ao abrir tela de caixa", e.getMessage());
+        }
+    }
+
+    // Método público para ser chamado pelo CaixaController após abrir o caixa
+    public void carregarTelaVendasAposAbertura() {
+        try {
+            carregarTela("/com/loja/amor_de_mamae/view/Vendas.fxml");
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlertaErro("Erro ao carregar tela de vendas", e.getMessage());
+        }
+    }
+
     // Método genérico para carregar telas no paneConteudo
-    private void carregarTela(String caminhoFXML) {
+    void carregarTela(String caminhoFXML) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFXML));
             Node node = loader.load();
@@ -85,11 +121,25 @@ public class MainController {
 
         } catch (Exception e) {
             e.printStackTrace();
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Erro ao carregar tela");
-            alert.setHeaderText("Não foi possível abrir a tela");
-            alert.setContentText(e.getMessage());
-            alert.showAndWait();
+            mostrarAlertaErro("Erro ao carregar tela", e.getMessage());
         }
+    }
+
+    public void voltarParaTelaPrincipalAposFechamento() {
+        try {
+            // Volta para a tela principal ou outra tela desejada
+            carregarTela("/com/loja/amor_de_mamae/view/TelaPrincipal.fxml"); // ou outra tela
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlertaErro("Erro", "Não foi possível voltar para a tela principal");
+        }
+    }
+
+    private void mostrarAlertaErro(String titulo, String mensagem) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titulo);
+        alert.setHeaderText(null);
+        alert.setContentText(mensagem);
+        alert.showAndWait();
     }
 }

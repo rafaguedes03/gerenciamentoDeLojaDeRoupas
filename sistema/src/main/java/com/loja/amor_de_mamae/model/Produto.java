@@ -16,6 +16,10 @@ public class Produto {
         this.preco = preco;
     }
 
+    // Construtor padrão (útil para frameworks e ORMs)
+    public Produto() {
+    }
+
     // getters e setters
     public int getIdProduto() {
         return id_produto;

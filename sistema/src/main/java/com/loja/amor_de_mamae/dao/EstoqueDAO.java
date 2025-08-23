@@ -30,5 +30,15 @@ public class EstoqueDAO {
         }
     }
 
-    
+    public void excluirPorProduto(int idProduto) throws Exception {
+        String sql = "DELETE FROM Estoque WHERE id_produto = ?";
+        try (Connection conn = ConnectionFactory.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idProduto);
+            stmt.executeUpdate();
+        }
+    }
+
+
 }
