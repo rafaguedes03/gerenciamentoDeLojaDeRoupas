@@ -46,6 +46,7 @@ CREATE TABLE Produtos (
     codigo CHAR(20) NOT NULL UNIQUE,
     preco DECIMAL(10,2) NOT NULL
 );
+```
 Execute o script completo no MySQL Workbench ou terminal para criar todas as tabelas.
 
 Conexão padrão (util/ConexaoMySQL.java):
