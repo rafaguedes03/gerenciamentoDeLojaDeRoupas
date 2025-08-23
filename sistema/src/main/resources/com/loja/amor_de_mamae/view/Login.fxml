@@ -86,7 +86,7 @@
                       </font>
                       Entrar
                                     </Button>
-               <Button fx:id="btnCadastrarUsuario" layoutX="96.0" layoutY="326.0" mnemonicParsing="false" onAction="#cadastrarUsuario" style="-fx-background-color: transparent;" text="Cadastrar Usuário" underline="true">
+               <Button fx:id="btnCadastrarUsuario" layoutX="96.0" layoutY="326.0" mnemonicParsing="false" onAction="#cadastrarUsuario" style="-fx-background-color: transparent; -fx-cursor: HAND" text="Cadastrar Usuário" underline="true">
                   <textFill>
                      <LinearGradient endX="1.0" endY="1.0">
                         <stops>

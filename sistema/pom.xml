@@ -43,6 +43,12 @@
             <artifactId>jbcrypt</artifactId>
             <version>0.4</version>
         </dependency>
+        <dependency>
+            <groupId>net.sourceforge.plantuml</groupId>
+            <artifactId>plantuml</artifactId>
+            <version>1.2023.7</version>
+        </dependency>
+
     </dependencies>
     <build>
         <plugins>
@@ -73,6 +79,30 @@
                         <arg>com.loja.amor_de_mamae=ALL-UNNAMED</arg>
                     </compilerArgs>
                 </configuration>
+            </plugin>
+             <!-- plant uml plugin -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>generate-uml</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                        <configuration>
+                            <mainClass>net.sourceforge.plantuml.Run</mainClass>
+                            <arguments>
+                                <argument>-tpng</argument>
+                                <argument>src/main/java</argument>
+                                <argument>-o</argument>
+                                <argument>target/uml</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

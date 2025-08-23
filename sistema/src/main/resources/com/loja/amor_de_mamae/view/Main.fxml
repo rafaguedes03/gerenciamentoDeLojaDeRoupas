@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.paint.LinearGradient?>
-<?import javafx.scene.paint.Stop?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -34,11 +29,6 @@
                         <Font size="12.0" />
                      </font>
                   </Text>
-                  <ImageView fitHeight="50.0" fitWidth="50.0" layoutX="220.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../img/store.png" />
-                     </image>
-                  </ImageView>
                </children>
             </Pane>
 
@@ -154,7 +144,7 @@
       <!-- Área de conteúdo -->
       <Pane fx:id="paneConteudo" layoutX="300.0" layoutY="0.0" prefHeight="720.0" prefWidth="980.0" style="-fx-background-color: #f8f9fa;">
          <!-- Header da área de conteúdo -->
-         <Rectangle arcHeight="0.0" arcWidth="0.0" height="70.0" width="980.0" fill="WHITE">
+         <Rectangle arcHeight="0.0" arcWidth="0.0" fill="WHITE" height="70.0" width="980.0">
             <effect>
                 <DropShadow blurType="GAUSSIAN" color="rgba(0,0,0,0.1)" height="3" radius="5" width="0" />
             </effect>
@@ -169,9 +159,5 @@
 
          <!-- Conteúdo será injetado aqui -->
       </Pane>
-
-      <!-- Decoração de fundo -->
-      <Circle centerX="1100.0" centerY="600.0" fill="rgba(102,126,234,0.05)" radius="120.0" />
-      <Circle centerX="800.0" centerY="150.0" fill="rgba(118,75,162,0.05)" radius="80.0" />
    </children>
 </Pane>

@@ -481,7 +481,7 @@ private void exportarParaPDF() {
             
             // Cabeçalhos da tabela
             table.addCell(new com.itextpdf.text.Phrase("Data", headerFont));
-            table.addCell(new com.itextpdf.text.Phrase("Produto", headerFont));
+            table.addCell(new com.itextpdf.text.Phrase("Nome", headerFont));
             table.addCell(new com.itextpdf.text.Phrase("Quantidade", headerFont));
             table.addCell(new com.itextpdf.text.Phrase("Valor", headerFont));
             table.addCell(new com.itextpdf.text.Phrase("Pagamento", headerFont));

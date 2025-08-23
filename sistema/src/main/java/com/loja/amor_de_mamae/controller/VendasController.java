@@ -365,6 +365,8 @@ public class VendasController {
 
             stage.showAndWait();
 
+            mainController.voltarParaTelaPrincipalAposFechamento();
+
         } catch (Exception e) {
             e.printStackTrace();
             mostrarAlerta("Erro", "Erro ao abrir tela de fechar caixa", Alert.AlertType.ERROR);

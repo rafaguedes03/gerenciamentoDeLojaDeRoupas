@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "com.loja.amor_de_mamae/com.loja.amor_de_mamae.Main",
+            "projectName": "sistema"
+        },
+        {
+            "type": "java",
+            "name": "TesteConexao",
+            "request": "launch",
+            "mainClass": "com.loja.amor_de_mamae/com.loja.amor_de_mamae.TesteConexao",
+            "projectName": "sistema"
+        },
+        {
+            "type": "java",
+            "name": "SecurityUtil",
+            "request": "launch",
+            "mainClass": "com.loja.amor_de_mamae/com.loja.amor_de_mamae.util.SecurityUtil",
+            "projectName": "sistema"
+        }
+    ]
+}

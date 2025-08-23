@@ -1,13 +1,16 @@
 package com.loja.amor_de_mamae.controller;
 
+import com.loja.amor_de_mamae.util.MaskUtil;
 import com.loja.amor_de_mamae.dao.ClienteDAO;
 import com.loja.amor_de_mamae.model.Cliente;
+import com.loja.amor_de_mamae.model.Usuario;
 import com.loja.amor_de_mamae.util.ConexaoMySQL;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.layout.HBox;
 import javafx.util.Callback;
 
 import java.sql.Connection;
@@ -21,6 +24,7 @@ public class CadastrarClienteController {
     @FXML private TextField inputCpf;
     @FXML private TextField inputEmail;
     @FXML private DatePicker dataNascimento;
+    @FXML private Button btnCadastrarCliente;
 
     @FXML private TableView<Cliente> tableView;
     @FXML private TableColumn<Cliente, String> nomeTableView;
@@ -31,60 +35,75 @@ public class CadastrarClienteController {
 
     private ClienteDAO clienteDAO;
     private ObservableList<Cliente> listaClientes;
-    private Cliente clienteSelecionado; // Para edição
-    
+    private Cliente clienteSelecionado;
+    private Usuario usuarioLogado;
+
     public void initialize() throws Exception {
-            Connection conn = ConexaoMySQL.getConnection();
-            clienteDAO = new ClienteDAO(conn);
+        MaskUtil.cpfField(inputCpf);
+        MaskUtil.dateField(dataNascimento);
 
-            // Configuração das colunas
-            nomeTableView.setCellValueFactory(new PropertyValueFactory<>("nome"));
-            dataTableView.setCellValueFactory(new PropertyValueFactory<>("data_nascimento"));
-            emailTableView.setCellValueFactory(new PropertyValueFactory<>("email"));
-            cpfTableView.setCellValueFactory(new PropertyValueFactory<>("cpf"));
+        Connection conn = ConexaoMySQL.getConnection();
+        clienteDAO = new ClienteDAO(conn);
 
-            // Configuração da coluna de ação
-            configurarColunaAcao();
+        nomeTableView.setCellValueFactory(new PropertyValueFactory<>("nome"));
+        dataTableView.setCellValueFactory(new PropertyValueFactory<>("data_nascimento"));
+        emailTableView.setCellValueFactory(new PropertyValueFactory<>("email"));
+        cpfTableView.setCellValueFactory(new PropertyValueFactory<>("cpf"));
 
-            carregarClientes();
+        configurarColunaAcao();
+        carregarClientes();
+    }
 
+    // Método para passar o usuário logado depois do FXML ser carregado
+    public void setUsuario(Usuario usuario) {
+        this.usuarioLogado = usuario;
+        ajustarBotoesPorPerfil();
+        // Atualiza a coluna de ação da tabela para desabilitar editar/excluir
+        configurarColunaAcao();
+    }
+
+    private void ajustarBotoesPorPerfil() {
+        if (usuarioLogado != null && "Funcionario".equalsIgnoreCase(usuarioLogado.getTipo())) {
+            if (btnCadastrarCliente != null) btnCadastrarCliente.setDisable(true);
+        }
     }
 
     private void configurarColunaAcao() {
-        Callback<TableColumn<Cliente, Void>, TableCell<Cliente, Void>> cellFactory = new Callback<>() {
+        Callback<TableColumn<Cliente, Void>, TableCell<Cliente, Void>> cellFactory = param -> new TableCell<>() {
+            private final Button btnEditar = new Button("Editar");
+            private final Button btnExcluir = new Button("Excluir");
+
+            {
+                btnEditar.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 10px; -fx-cursor: hand;");
+                btnExcluir.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 10px; -fx-cursor: hand;");
+
+                btnEditar.setOnAction(event -> {
+                    Cliente cliente = getTableView().getItems().get(getIndex());
+                    editarCliente(cliente);
+                });
+
+                btnExcluir.setOnAction(event -> {
+                    Cliente cliente = getTableView().getItems().get(getIndex());
+                    excluirCliente(cliente);
+                });
+            }
+
             @Override
-            public TableCell<Cliente, Void> call(final TableColumn<Cliente, Void> param) {
-                return new TableCell<>() {
-                    private final Button btnEditar = new Button("Editar");
-                    private final Button btnExcluir = new Button("Excluir");
-
-                    {
-                        // Estilizar botões
-                        btnEditar.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 10px; -fx-cursor: hand;");
-                        btnExcluir.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 10px; -fx-cursor: hand;");
-                        
-                        btnEditar.setOnAction(event -> {
-                            Cliente cliente = getTableView().getItems().get(getIndex());
-                            editarCliente(cliente);
-                        });
-                        
-                        btnExcluir.setOnAction(event -> {
-                            Cliente cliente = getTableView().getItems().get(getIndex());
-                            excluirCliente(cliente);
-                        });
+            public void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    // Desabilita botões se for funcionário
+                    if (usuarioLogado != null && "Funcionario".equalsIgnoreCase(usuarioLogado.getTipo())) {
+                        btnEditar.setDisable(true);
+                        btnExcluir.setDisable(true);
+                    } else {
+                        btnEditar.setDisable(false);
+                        btnExcluir.setDisable(false);
                     }
-
-                    @Override
-                    public void updateItem(Void item, boolean empty) {
-                        super.updateItem(item, empty);
-                        if (empty) {
-                            setGraphic(null);
-                        } else {
-                            // Usar HBox para organizar os botões
-                            setGraphic(new javafx.scene.layout.HBox(5, btnEditar, btnExcluir));
-                        }
-                    }
-                };
+                    setGraphic(new HBox(5, btnEditar, btnExcluir));
+                }
             }
         };
 
@@ -93,15 +112,10 @@ public class CadastrarClienteController {
 
     private void editarCliente(Cliente cliente) {
         clienteSelecionado = cliente;
-        
-        // Preencher os campos com os dados do cliente
         InputNome.setText(cliente.getNome());
         inputCpf.setText(cliente.getCpf());
         inputEmail.setText(cliente.getEmail());
         dataNascimento.setValue(cliente.getData_nascimento());
-        
-        // Mudar o texto do botão para "Atualizar"
-        // Você precisará adicionar um fx:id para o botão no FXML
     }
 
     private void excluirCliente(Cliente cliente) {
@@ -125,8 +139,7 @@ public class CadastrarClienteController {
 
     @FXML
     private void CadastrarCliente() {
-        // Validação dos campos
-        if (InputNome.getText().isEmpty() || inputCpf.getText().isEmpty() || 
+        if (InputNome.getText().isEmpty() || inputCpf.getText().isEmpty() ||
             inputEmail.getText().isEmpty() || dataNascimento.getValue() == null) {
             mostrarAlerta("Atenção", "Por favor, preencha todos os campos!");
             return;
@@ -134,33 +147,27 @@ public class CadastrarClienteController {
 
         try {
             Cliente cliente;
-            
             if (clienteSelecionado != null) {
-                // Modo edição
                 cliente = clienteSelecionado;
                 cliente.setNome(InputNome.getText().trim());
                 cliente.setCpf(inputCpf.getText().trim());
                 cliente.setEmail(inputEmail.getText().trim());
                 cliente.setData_nascimento(dataNascimento.getValue());
-                
                 clienteDAO.atualizar(cliente);
                 mostrarAlerta("Sucesso", "Cliente atualizado com sucesso!");
-                clienteSelecionado = null; // Limpar cliente selecionado
+                clienteSelecionado = null;
             } else {
-                // Modo cadastro
                 cliente = new Cliente();
                 cliente.setNome(InputNome.getText().trim());
                 cliente.setCpf(inputCpf.getText().trim());
                 cliente.setEmail(inputEmail.getText().trim());
                 cliente.setData_nascimento(dataNascimento.getValue());
-                
                 clienteDAO.inserir(cliente);
                 mostrarAlerta("Sucesso", "Cliente cadastrado com sucesso!");
             }
 
             carregarClientes();
             limparCampos();
-            
         } catch (SQLException e) {
             e.printStackTrace();
             mostrarAlerta("Erro", "Erro ao salvar cliente: " + e.getMessage());
@@ -192,11 +199,9 @@ public class CadastrarClienteController {
         alert.showAndWait();
     }
 
-    // Método para cancelar edição
     @FXML
     private void cancelarEdicao() {
         clienteSelecionado = null;
         limparCampos();
-        // Mudar o texto do botão de volta para "Cadastrar"
     }
 }

@@ -41,6 +41,18 @@ public class UsuarioDAO {
         return null;
     }
 
+    public boolean existeUsuario(String login) throws Exception {
+        String sql = "SELECT 1 FROM Usuarios WHERE login = ? LIMIT 1";
+        try (Connection c = ConnectionFactory.getConnection();
+            PreparedStatement ps = c.prepareStatement(sql)) {
+            ps.setString(1, login);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next();
+            }
+        }
+    }
+
+
     public void cadastrarUsuario(Usuario usuario) {
         String sql = "INSERT INTO Usuarios (nome, login, senha, tipo) VALUES (?, ?, ?, ?)";
         try (Connection conn = ConexaoMySQL.getConnection();

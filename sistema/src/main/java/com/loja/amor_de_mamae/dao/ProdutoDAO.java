@@ -112,6 +112,8 @@ public class ProdutoDAO {
         }
     }
 
+    
+
     // listar produtos com estoque
     public List<ProdutoEstoqueDAO> listarComEstoque() throws Exception {
         List<ProdutoEstoqueDAO> produtos = new ArrayList<>();

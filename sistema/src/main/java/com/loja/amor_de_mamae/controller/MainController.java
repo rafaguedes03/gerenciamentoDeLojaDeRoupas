@@ -21,12 +21,20 @@ public class MainController {
     @FXML private Button btnFiados;
     @FXML private Button btnRelatorios;
     @FXML private Button btnSair;
-
+    
+    @FXML private Pane paneConteudoInicial;
     @FXML private Pane paneConteudo;
     @FXML private Text textTitulo;
 
     private Usuario usuarioLogado;
     private final CaixaDAO caixaDAO = new CaixaDAO();
+
+    @FXML
+    public void initialize() {
+        // Guarda o conteúdo inicial do painel
+        paneConteudoInicial = new Pane();
+        paneConteudoInicial.getChildren().addAll(paneConteudo.getChildren());
+    }
 
     // Recebe o usuário logado
     public void setUsuario(Usuario usuario) {
@@ -38,6 +46,7 @@ public class MainController {
     private void ajustarBotoesPorPerfil() {
         if (usuarioLogado != null && "Funcionario".equalsIgnoreCase(usuarioLogado.getTipo())) {
             btnRelatorios.setDisable(true);
+            btnFiados.setDisable(true);
         }
     }
 
@@ -55,13 +64,45 @@ public class MainController {
 
     @FXML
     private void abrirCadastrarProduto() {
-        carregarTela("/com/loja/amor_de_mamae/view/CadastrarProduto.fxml", "Produtos");
+        try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/loja/amor_de_mamae/view/CadastrarProduto.fxml"));
+        Node node = loader.load();
+
+        // Passa o usuário logado
+        CadastrarProdutoController controller = loader.getController();
+        controller.setUsuario(usuarioLogado);
+
+        paneConteudo.getChildren().setAll(node);
+        textTitulo.setText("Produtos");
+
+    } catch (Exception e) {
+        e.printStackTrace();
+        mostrarAlertaErro("Erro", "Não foi possível abrir a tela de produtos");
+    }
     }
 
     @FXML
     private void abrirCadastrarCliente() {
-        carregarTela("/com/loja/amor_de_mamae/view/CadastrarCliente.fxml", "Clientes");
-    }
+        try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/loja/amor_de_mamae/view/CadastrarCliente.fxml"));
+        Node node = loader.load();
+
+        // Pega o controller da tela carregada
+        CadastrarClienteController controller = loader.getController();
+        // Passa o usuário logado
+        controller.setUsuario(usuarioLogado);
+
+        // Coloca a tela no paneConteudo
+        paneConteudo.getChildren().setAll(node);
+
+        // Atualiza o título
+        textTitulo.setText("Clientes");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlertaErro("Erro", "Não foi possível abrir a tela de clientes");
+        }
+        }
 
     @FXML
     private void abrirFiados() {
@@ -124,24 +165,29 @@ public class MainController {
 
     // Em cada método de abrir tela, atualize o título:
     void carregarTela(String caminhoFXML, String titulo) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFXML));
-            Node node = loader.load();
-            paneConteudo.getChildren().setAll(node);
-            textTitulo.setText(titulo);
+    try {
+        FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFXML));
+        Node node = loader.load();
+
+        // Passar o MainController para o controller carregado, se ele for VendasController
+        Object controller = loader.getController();
+        if (controller != null && controller instanceof VendasController) {
+            ((VendasController) controller).setMainController(this);
+        }
+        // Adicione outros controllers aqui se precisar
+
+        paneConteudo.getChildren().setAll(node);
+        textTitulo.setText(titulo);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+
     public void voltarParaTelaPrincipalAposFechamento() {
-        try {
-            // Volta para a tela principal ou outra tela desejada
-            carregarTela("/com/loja/amor_de_mamae/view/Main.fxml", "Dashboard"); // ou outra tela
-        } catch (Exception e) {
-            e.printStackTrace();
-            mostrarAlertaErro("Erro", "Não foi possível voltar para a tela principal");
-        }
+        paneConteudo.getChildren().clear();
+        paneConteudo.getChildren().addAll(paneConteudoInicial.getChildren());
+        textTitulo.setText("Menu Principal");
     }
 
     private void mostrarAlertaErro(String titulo, String mensagem) {
