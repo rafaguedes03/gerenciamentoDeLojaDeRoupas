@@ -33,7 +33,7 @@ CREATE TABLE `caixa` (
   `valor_vendas` decimal(10,2) DEFAULT NULL,
   `aberto` tinyint(1) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id_caixa`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,6 @@ CREATE TABLE `caixa` (
 
 LOCK TABLES `caixa` WRITE;
 /*!40000 ALTER TABLE `caixa` DISABLE KEYS */;
-INSERT INTO `caixa` VALUES (1,'2025-08-23 14:14:34','2025-08-23 14:15:19',0.00,120.00,120.00,0);
 /*!40000 ALTER TABLE `caixa` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -61,7 +60,7 @@ CREATE TABLE `cliente` (
   `data_nascimento` date DEFAULT NULL,
   PRIMARY KEY (`id_cliente`),
   UNIQUE KEY `cpf` (`cpf`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -70,7 +69,6 @@ CREATE TABLE `cliente` (
 
 LOCK TABLES `cliente` WRITE;
 /*!40000 ALTER TABLE `cliente` DISABLE KEYS */;
-INSERT INTO `cliente` VALUES (1,'Rafael','111111111','111.111.111-11','1111-11-11');
 /*!40000 ALTER TABLE `cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -89,7 +87,7 @@ CREATE TABLE `estoque` (
   PRIMARY KEY (`id_estoque`),
   UNIQUE KEY `id_produto` (`id_produto`,`tamanho`),
   CONSTRAINT `estoque_ibfk_1` FOREIGN KEY (`id_produto`) REFERENCES `produtos` (`id_produto`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -98,7 +96,6 @@ CREATE TABLE `estoque` (
 
 LOCK TABLES `estoque` WRITE;
 /*!40000 ALTER TABLE `estoque` DISABLE KEYS */;
-INSERT INTO `estoque` VALUES (1,1,'11',1101);
 /*!40000 ALTER TABLE `estoque` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -116,7 +113,7 @@ CREATE TABLE `fiado` (
   PRIMARY KEY (`id_fiado`),
   KEY `id_venda` (`id_venda`),
   CONSTRAINT `fiado_ibfk_1` FOREIGN KEY (`id_venda`) REFERENCES `venda` (`id_venda`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -125,7 +122,6 @@ CREATE TABLE `fiado` (
 
 LOCK TABLES `fiado` WRITE;
 /*!40000 ALTER TABLE `fiado` DISABLE KEYS */;
-INSERT INTO `fiado` VALUES (1,1,'ativo');
 /*!40000 ALTER TABLE `fiado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -148,7 +144,7 @@ CREATE TABLE `itemvenda` (
   KEY `id_estoque` (`id_estoque`),
   CONSTRAINT `itemvenda_ibfk_1` FOREIGN KEY (`id_venda`) REFERENCES `venda` (`id_venda`),
   CONSTRAINT `itemvenda_ibfk_2` FOREIGN KEY (`id_estoque`) REFERENCES `estoque` (`id_estoque`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -157,7 +153,6 @@ CREATE TABLE `itemvenda` (
 
 LOCK TABLES `itemvenda` WRITE;
 /*!40000 ALTER TABLE `itemvenda` DISABLE KEYS */;
-INSERT INTO `itemvenda` VALUES (1,1,1,10,11.00,110.00);
 /*!40000 ALTER TABLE `itemvenda` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -178,7 +173,7 @@ CREATE TABLE `parcelafiado` (
   PRIMARY KEY (`id_parcela`),
   KEY `id_fiado` (`id_fiado`),
   CONSTRAINT `parcelafiado_ibfk_1` FOREIGN KEY (`id_fiado`) REFERENCES `fiado` (`id_fiado`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -187,7 +182,6 @@ CREATE TABLE `parcelafiado` (
 
 LOCK TABLES `parcelafiado` WRITE;
 /*!40000 ALTER TABLE `parcelafiado` DISABLE KEYS */;
-INSERT INTO `parcelafiado` VALUES (1,1,1,9.17,'2025-09-23','paga'),(2,1,2,9.17,'2025-10-23','a vencer'),(3,1,3,9.17,'2025-11-23','a vencer'),(4,1,4,9.17,'2025-12-23','a vencer'),(5,1,5,9.17,'2026-01-23','a vencer'),(6,1,6,9.17,'2026-02-23','a vencer'),(7,1,7,9.17,'2026-03-23','a vencer'),(8,1,8,9.17,'2026-04-23','a vencer'),(9,1,9,9.17,'2026-05-23','a vencer'),(10,1,10,9.17,'2026-06-23','a vencer'),(11,1,11,9.17,'2026-07-23','a vencer'),(12,1,12,9.17,'2026-08-23','a vencer');
 /*!40000 ALTER TABLE `parcelafiado` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -205,7 +199,7 @@ CREATE TABLE `produtos` (
   `preco` decimal(10,2) NOT NULL,
   PRIMARY KEY (`id_produto`),
   UNIQUE KEY `codigo` (`codigo`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -214,7 +208,6 @@ CREATE TABLE `produtos` (
 
 LOCK TABLES `produtos` WRITE;
 /*!40000 ALTER TABLE `produtos` DISABLE KEYS */;
-INSERT INTO `produtos` VALUES (1,'1','1',11.00);
 /*!40000 ALTER TABLE `produtos` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -233,7 +226,7 @@ CREATE TABLE `usuarios` (
   `tipo` enum('Administrador','Funcionario') NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `login` (`login`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -242,7 +235,6 @@ CREATE TABLE `usuarios` (
 
 LOCK TABLES `usuarios` WRITE;
 /*!40000 ALTER TABLE `usuarios` DISABLE KEYS */;
-INSERT INTO `usuarios` VALUES (1,'Administrador','admin','$2a$12$nFzYepGm.m8nLYBKJvmJTuG0Du.O7DZmzq2kqqQ5SkJi1wwjx0Ezm','Administrador');
 /*!40000 ALTER TABLE `usuarios` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -267,7 +259,7 @@ CREATE TABLE `venda` (
   KEY `id_caixa` (`id_caixa`),
   CONSTRAINT `venda_ibfk_1` FOREIGN KEY (`id_cliente`) REFERENCES `cliente` (`id_cliente`),
   CONSTRAINT `venda_ibfk_2` FOREIGN KEY (`id_caixa`) REFERENCES `caixa` (`id_caixa`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +268,6 @@ CREATE TABLE `venda` (
 
 LOCK TABLES `venda` WRITE;
 /*!40000 ALTER TABLE `venda` DISABLE KEYS */;
-INSERT INTO `venda` VALUES (1,1,1,'2025-08-23 14:15:10',110.00,'Fiado','sim',12);
 /*!40000 ALTER TABLE `venda` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -289,4 +280,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2025-08-23 14:40:53
+-- Dump completed on 2025-08-23 15:45:48
