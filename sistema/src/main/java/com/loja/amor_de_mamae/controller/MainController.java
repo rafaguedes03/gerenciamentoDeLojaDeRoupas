@@ -1,6 +1,7 @@
 package com.loja.amor_de_mamae.controller;
 
 import com.loja.amor_de_mamae.model.Usuario;
+import com.loja.amor_de_mamae.dao.CaixaDAO;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -10,7 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import com.loja.amor_de_mamae.dao.CaixaDAO;
+import javafx.scene.text.Text;
 
 public class MainController {
 
@@ -22,6 +23,7 @@ public class MainController {
     @FXML private Button btnSair;
 
     @FXML private Pane paneConteudo;
+    @FXML private Text textTitulo;
 
     private Usuario usuarioLogado;
     private final CaixaDAO caixaDAO = new CaixaDAO();
@@ -39,11 +41,13 @@ public class MainController {
         }
     }
 
+    
+
     // 🔹 Funções de navegação
     @FXML
     private void abrirVendas() throws Exception {
         if(caixaDAO.isCaixaAberto()){
-            carregarTela("/com/loja/amor_de_mamae/view/Vendas.fxml");
+            carregarTela("/com/loja/amor_de_mamae/view/Vendas.fxml", "Vendas");
         } else {
             abrirTelaAbrirCaixa();
         }
@@ -51,28 +55,38 @@ public class MainController {
 
     @FXML
     private void abrirCadastrarProduto() {
-        carregarTela("/com/loja/amor_de_mamae/view/CadastrarProduto.fxml");
+        carregarTela("/com/loja/amor_de_mamae/view/CadastrarProduto.fxml", "Produtos");
     }
 
     @FXML
     private void abrirCadastrarCliente() {
-        carregarTela("/com/loja/amor_de_mamae/view/CadastrarCliente.fxml");
+        carregarTela("/com/loja/amor_de_mamae/view/CadastrarCliente.fxml", "Clientes");
     }
 
     @FXML
     private void abrirFiados() {
-        carregarTela("/com/loja/amor_de_mamae/view/Fiados.fxml");
+        carregarTela("/com/loja/amor_de_mamae/view/Fiados.fxml", "Fiados");
     }
 
     @FXML
     private void abrirRelatorios() {
-        carregarTela("/com/loja/amor_de_mamae/view/Relatorios.fxml");
+        carregarTela("/com/loja/amor_de_mamae/view/Relatorios.fxml", "Relatórios");
     }
 
     @FXML
-    private void exit() {
-        // Fecha a aplicação
-        System.exit(0);
+    private void logout() {
+        // Desconecta o usuário e volta para a tela de login
+        try {
+            Stage stage = (Stage) btnSair.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/loja/amor_de_mamae/view/login.fxml"));
+            stage.setScene(new Scene(loader.load()));
+            stage.setTitle("Amor de Mamãe - Sistema de Vendas");
+            stage.setResizable(false);
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            mostrarAlertaErro("Erro", "Não foi possível fazer logout");
+        }
     }
 
     // Método para abrir a tela de abrir caixa em uma janela modal
@@ -101,32 +115,29 @@ public class MainController {
     // Método público para ser chamado pelo CaixaController após abrir o caixa
     public void carregarTelaVendasAposAbertura() {
         try {
-            carregarTela("/com/loja/amor_de_mamae/view/Vendas.fxml");
+            carregarTela("/com/loja/amor_de_mamae/view/Vendas.fxml", "Vendas");
         } catch (Exception e) {
             e.printStackTrace();
             mostrarAlertaErro("Erro ao carregar tela de vendas", e.getMessage());
         }
     }
 
-    // Método genérico para carregar telas no paneConteudo
-    void carregarTela(String caminhoFXML) {
+    // Em cada método de abrir tela, atualize o título:
+    void carregarTela(String caminhoFXML, String titulo) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(caminhoFXML));
             Node node = loader.load();
-
-            // substitui conteúdo do Pane
             paneConteudo.getChildren().setAll(node);
-
+            textTitulo.setText(titulo);
         } catch (Exception e) {
             e.printStackTrace();
-            mostrarAlertaErro("Erro ao carregar tela", e.getMessage());
         }
     }
 
     public void voltarParaTelaPrincipalAposFechamento() {
         try {
             // Volta para a tela principal ou outra tela desejada
-            carregarTela("/com/loja/amor_de_mamae/view/TelaPrincipal.fxml"); // ou outra tela
+            carregarTela("/com/loja/amor_de_mamae/view/Main.fxml", "Dashboard"); // ou outra tela
         } catch (Exception e) {
             e.printStackTrace();
             mostrarAlertaErro("Erro", "Não foi possível voltar para a tela principal");

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: linear-gradient(to bottom right, #667eea, #764ba2);" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.loja.amor_de_mamae.controller.CadastrarUsuarioController">
+   <children>
+      <VBox layoutX="170.0" layoutY="14.0" prefHeight="746.0" prefWidth="940.0" spacing="20.0">
+         <children>
+            <!-- Cabeçalho -->
+            <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Cadastro de Usuários">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Text>
+            
+            <!-- Formulário de Cadastro -->
+            <VBox prefHeight="296.0" prefWidth="868.0" spacing="15" style="-fx-padding: 20; -fx-background-color: white; -fx-background-radius: 10; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10, 0, 0, 3);">
+               <children>
+                  <Text fill="#2c3e50" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Dados do Usuário">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Text>
+                  
+                  <HBox alignment="CENTER_LEFT" prefHeight="65.0" prefWidth="684.0" spacing="20">
+                     <children>
+                        <VBox spacing="8">
+                           <children>
+                              <Label style="-fx-font-weight: bold;" text="Nome:" textFill="#555" />
+                              <TextField fx:id="inputNome" prefHeight="40.0" prefWidth="300.0" style="-fx-background-color: #f8f9fa; -fx-background-radius: 5; -fx-border-color: #ddd; -fx-border-radius: 5;" />
+                           </children>
+                        </VBox>
+                        
+                        <VBox spacing="8">
+                           <children>
+                              <Label style="-fx-font-weight: bold;" text="Login:" textFill="#555" />
+                              <TextField fx:id="inputLogin" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #f8f9fa; -fx-background-radius: 5; -fx-border-color: #ddd; -fx-border-radius: 5;" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  
+                  <HBox alignment="CENTER_LEFT" spacing="20">
+                     <children>
+                        <VBox spacing="8">
+                           <children>
+                              <Label style="-fx-font-weight: bold;" text="Senha:" textFill="#555" />
+                              <PasswordField fx:id="inputSenha" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #f8f9fa; -fx-background-radius: 5; -fx-border-color: #ddd; -fx-border-radius: 5;" />
+                           </children>
+                        </VBox>
+                        
+                        <VBox spacing="8">
+                           <children>
+                              <Label style="-fx-font-weight: bold;" text="Confirmar Senha:" textFill="#555" />
+                              <PasswordField fx:id="inputConfirmarSenha" prefHeight="40.0" prefWidth="200.0" style="-fx-background-color: #f8f9fa; -fx-background-radius: 5; -fx-border-color: #ddd; -fx-border-radius: 5;" />
+                           </children>
+                        </VBox>
+                        
+                        <VBox spacing="8">
+                           <children>
+                              <Label style="-fx-font-weight: bold;" text="Tipo:" textFill="#555" />
+                              <ComboBox fx:id="comboTipo" prefHeight="40.0" prefWidth="150.0" style="-fx-background-color: #f8f9fa; -fx-background-radius: 5; -fx-border-color: #ddd; -fx-border-radius: 5;" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </HBox>
+                  <Pane prefHeight="58.0" prefWidth="695.0">
+                     <children>
+                        <Button fx:id="btnLogin" layoutX="698.0" layoutY="6.0" mnemonicParsing="false" onAction="#login" prefHeight="45.0" prefWidth="180.0" style="-fx-background-color: #27ae60; -fx-background-radius: 25; -fx-text-fill: white; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(39,174,96,0.3), 10, 0, 0, 5);" text="LOGIN">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="btnCadastrarUsuario" layoutX="503.0" layoutY="7.0" mnemonicParsing="false" onAction="#cadastrarUsuario" prefHeight="45.0" prefWidth="180.0" style="-fx-background-color: #27ae60; -fx-background-radius: 25; -fx-text-fill: white; -fx-font-weight: bold; -fx-effect: dropshadow(gaussian, rgba(39,174,96,0.3), 10, 0, 0, 5);" text="CADASTRAR">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                        
+                            <Button fx:id="btnCancelar" layoutX="321.0" layoutY="7.0" mnemonicParsing="false" onAction="#cancelarEdicao" prefHeight="45.0" prefWidth="150.0" style="-fx-background-color: #95a5a6; -fx-background-radius: 25; -fx-text-fill: white; -fx-font-weight: bold;" text="CANCELAR" visible="false">
+                           <cursor>
+                              <Cursor fx:constant="HAND" />
+                           </cursor>
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Button>
+                     </children>
+                  </Pane>
+               </children>
+            </VBox>
+            
+            <!-- Lista de Usuários -->
+            <VBox prefHeight="312.0" prefWidth="940.0" spacing="15">
+               <children>
+                  <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-font-weight: bold;" text="Usuários Cadastrados">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </Text>
+                  
+                  <TableView fx:id="tableView" editable="true" prefHeight="300.0" prefWidth="940.0" style="-fx-background-radius: 5; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 5, 0, 0, 2);">
+                    <columns>
+                      <TableColumn fx:id="colunaNome" prefWidth="250.0" style="-fx-font-weight: bold; -fx-alignment: CENTER_LEFT;" text="NOME" />
+                      <TableColumn fx:id="colunaLogin" prefWidth="200.0" style="-fx-font-weight: bold; -fx-alignment: CENTER_LEFT;" text="LOGIN" />
+                      <TableColumn fx:id="colunaTipo" prefWidth="150.0" style="-fx-font-weight: bold; -fx-alignment: CENTER;" text="TIPO" />
+                      <TableColumn fx:id="colunaAcao" prefWidth="120.0" style="-fx-font-weight: bold; -fx-alignment: CENTER;" text="AÇÃO" />
+                    </columns>
+                     <columnResizePolicy>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                     </columnResizePolicy>
+                  </TableView>
+               </children>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</Pane>

@@ -43,7 +43,7 @@ public class CaixaController {
 
             // Após abrir o caixa, carrega a tela de vendas
             if (mainController != null) {
-                mainController.carregarTela("/com/loja/amor_de_mamae/view/Vendas.fxml");
+                mainController.carregarTela("/com/loja/amor_de_mamae/view/Vendas.fxml", "Vendas");
             }
 
             // Fecha a janela atual (se for uma janela separada)

@@ -3,6 +3,7 @@ C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\c
 C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\com\loja\amor_de_mamae\dao\FiadoDAO.java
 C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\com\loja\amor_de_mamae\model\ParcelaFiado.java
 C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\com\loja\amor_de_mamae\dao\ConnectionFactory.java
+C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\com\loja\amor_de_mamae\controller\CadastrarUsuarioController.java
 C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\com\loja\amor_de_mamae\dao\ProdutoEstoqueDAO.java
 C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\com\loja\amor_de_mamae\model\Fiado.java
 C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\com\loja\amor_de_mamae\model\Vendas.java
@@ -29,6 +30,7 @@ C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\c
 C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\com\loja\amor_de_mamae\controller\MainController.java
 C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\com\loja\amor_de_mamae\dao\ProdutoDAO.java
 C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\com\loja\amor_de_mamae\controller\LoginController.java
+C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\com\loja\amor_de_mamae\util\SecurityUtil.java
 C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\com\loja\amor_de_mamae\controller\CaixaController.java
 C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\com\loja\amor_de_mamae\model\Caixa.java
 C:\Users\rafag\Downloads\dsc\gerenciamentoDeLojaDeRoupas\sistema\src\main\java\com\loja\amor_de_mamae\controller\RelatoriosController.java

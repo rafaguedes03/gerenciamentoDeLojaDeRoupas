@@ -60,8 +60,8 @@ public class CadastrarClienteController {
 
                     {
                         // Estilizar botões
-                        btnEditar.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 10px;");
-                        btnExcluir.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 10px;");
+                        btnEditar.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-size: 10px; -fx-cursor: hand;");
+                        btnExcluir.setStyle("-fx-background-color: #f44336; -fx-text-fill: white; -fx-font-size: 10px; -fx-cursor: hand;");
                         
                         btnEditar.setOnAction(event -> {
                             Cliente cliente = getTableView().getItems().get(getIndex());

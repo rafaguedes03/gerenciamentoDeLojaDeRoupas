@@ -34,4 +34,14 @@ public class LoginController {
             System.out.println("Usuário ou senha inválidos!");
         }
     }
+
+    public void cadastrarUsuario(ActionEvent e) {
+        try {
+            Stage stage = (Stage) txtUsuario.getScene().getWindow();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/loja/amor_de_mamae/view/CadastrarUsuario.fxml"));
+            stage.setScene(new Scene(loader.load()));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
 }
