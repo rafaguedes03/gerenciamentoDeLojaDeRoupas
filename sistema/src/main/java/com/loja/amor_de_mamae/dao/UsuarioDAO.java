@@ -12,7 +12,7 @@ public class UsuarioDAO {
     
     public Usuario login(String login, String senha) {
         try (Connection conn = ConnectionFactory.getConnection()) {
-            String sql = "SELECT * FROM Usuarios WHERE login = ?";
+            String sql = "SELECT * FROM usuarios WHERE login = ?";
             PreparedStatement stmt = conn.prepareStatement(sql);
             stmt.setString(1, login);
             ResultSet rs = stmt.executeQuery();
@@ -42,7 +42,7 @@ public class UsuarioDAO {
     }
 
     public boolean existeUsuario(String login) throws Exception {
-        String sql = "SELECT 1 FROM Usuarios WHERE login = ? LIMIT 1";
+        String sql = "SELECT 1 FROM usuarios WHERE login = ? LIMIT 1";
         try (Connection c = ConnectionFactory.getConnection();
             PreparedStatement ps = c.prepareStatement(sql)) {
             ps.setString(1, login);
@@ -54,7 +54,7 @@ public class UsuarioDAO {
 
 
     public void cadastrarUsuario(Usuario usuario) {
-        String sql = "INSERT INTO Usuarios (nome, login, senha, tipo) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO usuarios (nome, login, senha, tipo) VALUES (?, ?, ?, ?)";
         try (Connection conn = ConexaoMySQL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -73,7 +73,7 @@ public class UsuarioDAO {
 
     public List<Usuario> listarTodos() {
         List<Usuario> usuarios = new ArrayList<>();
-        String sql = "SELECT id, nome, login, tipo FROM Usuarios"; // Não selecionar a senha
+        String sql = "SELECT id, nome, login, tipo FROM usuarios"; // Não selecionar a senha
         try (Connection conn = ConexaoMySQL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
@@ -94,7 +94,7 @@ public class UsuarioDAO {
     }
 
     public void excluirUsuario(int id) {
-        String sql = "DELETE FROM Usuarios WHERE id = ?";
+        String sql = "DELETE FROM usuarios WHERE id = ?";
         try (Connection conn = ConexaoMySQL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -106,7 +106,7 @@ public class UsuarioDAO {
     }
     
     public boolean loginExiste(String login) {
-        String sql = "SELECT COUNT(*) FROM Usuarios WHERE login = ?";
+        String sql = "SELECT COUNT(*) FROM usuarios WHERE login = ?";
         try (Connection conn = ConexaoMySQL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
@@ -123,7 +123,7 @@ public class UsuarioDAO {
     }
     
     public void atualizarUsuario(Usuario usuario) {
-        String sql = "UPDATE Usuarios SET nome = ?, login = ?, tipo = ? WHERE id = ?";
+        String sql = "UPDATE usuarios SET nome = ?, login = ?, tipo = ? WHERE id = ?";
         try (Connection conn = ConexaoMySQL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
@@ -139,7 +139,7 @@ public class UsuarioDAO {
     }
     
     public void atualizarSenha(int id, String novaSenha) {
-        String sql = "UPDATE Usuarios SET senha = ? WHERE id = ?";
+        String sql = "UPDATE usuarios SET senha = ? WHERE id = ?";
         try (Connection conn = ConexaoMySQL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             
@@ -157,7 +157,7 @@ public class UsuarioDAO {
      * Migra uma senha em texto puro para hash BCrypt
      */
     private void migrarParaHash(int usuarioId, String senhaPlaintext) {
-        String sql = "UPDATE Usuarios SET senha = ? WHERE id = ?";
+        String sql = "UPDATE usuarios SET senha = ? WHERE id = ?";
         try (Connection conn = ConexaoMySQL.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
             

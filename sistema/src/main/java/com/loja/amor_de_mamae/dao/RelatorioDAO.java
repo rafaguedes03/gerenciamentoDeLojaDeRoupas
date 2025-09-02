@@ -16,10 +16,10 @@ public class RelatorioDAO {
         List<RelatorioVenda> vendas = new ArrayList<>();
         String sql = "SELECT v.data_venda, p.nome as produto, iv.preco_unitario, iv.quantidade, " +
                      "v.forma_pagamento, (iv.preco_unitario * iv.quantidade) as total_item " +
-                     "FROM Venda v " +
-                     "JOIN ItemVenda iv ON v.id_venda = iv.id_venda " +
-                     "JOIN Estoque e ON iv.id_estoque = e.id_estoque " +
-                     "JOIN Produtos p ON e.id_produto = p.id_produto " +
+                     "FROM venda v " +
+                     "JOIN itemvenda iv ON v.id_venda = iv.id_venda " +
+                     "JOIN estoque e ON iv.id_estoque = e.id_estoque " +
+                     "JOIN produtos p ON e.id_produto = p.id_produto " +
                      "WHERE DATE(v.data_venda) BETWEEN ? AND ? " +
                      "ORDER BY v.data_venda DESC";
         
@@ -50,7 +50,7 @@ public class RelatorioDAO {
                      "COUNT(*) as total_vendas, " +
                      "SUM(v.total_venda) as total_valor, " +
                      "GROUP_CONCAT(DISTINCT v.forma_pagamento) as formas_pagamento " +
-                     "FROM Venda v " +
+                     "FROM venda v " +
                      "WHERE DATE(v.data_venda) BETWEEN ? AND ? " +
                      "GROUP BY DATE(v.data_venda) " +
                      "ORDER BY data DESC";
@@ -80,8 +80,8 @@ public class RelatorioDAO {
         List<RelatorioEstoque> estoque = new ArrayList<>();
         String sql = "SELECT p.nome as produto, p.codigo, e.tamanho, e.quantidade, " +
                      "(p.preco * e.quantidade) as valor_total " +
-                     "FROM Produtos p " +
-                     "JOIN Estoque e ON p.id_produto = e.id_produto " +
+                     "FROM produtos p " +
+                     "JOIN estoque e ON p.id_produto = e.id_produto " +
                      "ORDER BY p.nome, e.tamanho";
         
         try (Connection conn = ConnectionFactory.getConnection();
@@ -106,7 +106,7 @@ public class RelatorioDAO {
         String sql = "SELECT p.nome as produto, p.codigo, e.tamanho, e.quantidade, " +
                      "(p.preco * e.quantidade) as valor_total " +
                      "FROM Produtos p " +
-                     "JOIN Estoque e ON p.id_produto = e.id_produto " +
+                     "JOIN estoque e ON p.id_produto = e.id_produto " +
                      "WHERE e.quantidade <= ? " +
                      "ORDER BY e.quantidade ASC";
         
@@ -135,11 +135,11 @@ public class RelatorioDAO {
         List<RelatorioFiado> fiados = new ArrayList<>();
         String sql = "SELECT c.nome as cliente, c.cpf, v.data_venda, v.total_venda, " +
                      "f.status, v.num_parcelas, " +
-                     "(SELECT COUNT(*) FROM ParcelaFiado pf WHERE pf.id_fiado = f.id_fiado AND pf.status = 'paga') as parcelas_pagas, " +
-                     "(SELECT SUM(pf.valor_parcela) FROM ParcelaFiado pf WHERE pf.id_fiado = f.id_fiado AND pf.status != 'paga') as valor_pendente " +
-                     "FROM Fiado f " +
-                     "JOIN Venda v ON f.id_venda = v.id_venda " +
-                     "JOIN Cliente c ON v.id_cliente = c.id_cliente " +
+                     "(SELECT COUNT(*) FROM parcelafiado pf WHERE pf.id_fiado = f.id_fiado AND pf.status = 'paga') as parcelas_pagas, " +
+                     "(SELECT SUM(pf.valor_parcela) FROM parcelafiado pf WHERE pf.id_fiado = f.id_fiado AND pf.status != 'paga') as valor_pendente " +
+                     "FROM fiado f " +
+                     "JOIN venda v ON f.id_venda = v.id_venda " +
+                     "JOIN cliente c ON v.id_cliente = c.id_cliente " +
                      "WHERE f.status = 'ativo' " +
                      "ORDER BY v.data_venda DESC";
         
@@ -167,11 +167,11 @@ public class RelatorioDAO {
         List<RelatorioFiado> fiadosAtrasados = new ArrayList<>();
         String sql = "SELECT c.nome as cliente, c.cpf, v.data_venda, v.total_venda, " +
                      "f.status, v.num_parcelas, " +
-                     "(SELECT COUNT(*) FROM ParcelaFiado pf WHERE pf.id_fiado = f.id_fiado AND pf.status = 'paga') as parcelas_pagas, " +
-                     "(SELECT SUM(pf.valor_parcela) FROM ParcelaFiado pf WHERE pf.id_fiado = f.id_fiado AND pf.status = 'vencida') as valor_atrasado " +
-                     "FROM Fiado f " +
-                     "JOIN Venda v ON f.id_venda = v.id_venda " +
-                     "JOIN Cliente c ON v.id_cliente = c.id_cliente " +
+                     "(SELECT COUNT(*) FROM parcelafiado pf WHERE pf.id_fiado = f.id_fiado AND pf.status = 'paga') as parcelas_pagas, " +
+                     "(SELECT SUM(pf.valor_parcela) FROM parcelafiado pf WHERE pf.id_fiado = f.id_fiado AND pf.status = 'vencida') as valor_atrasado " +
+                     "FROM fiado f " +
+                     "JOIN venda v ON f.id_venda = v.id_venda " +
+                     "JOIN cliente c ON v.id_cliente = c.id_cliente " +
                      "WHERE EXISTS (SELECT 1 FROM ParcelaFiado pf WHERE pf.id_fiado = f.id_fiado AND pf.status = 'vencida') " +
                      "ORDER BY valor_atrasado DESC";
         
@@ -198,7 +198,7 @@ public class RelatorioDAO {
     // Métodos para estatísticas
     public double getTotalVendasPeriodo(LocalDate dataInicio, LocalDate dataFim) throws Exception {
         String sql = "SELECT COALESCE(SUM(total_venda), 0) as total " +
-                     "FROM Venda " +
+                     "FROM venda " +
                      "WHERE DATE(data_venda) BETWEEN ? AND ?";
         
         try (Connection conn = ConnectionFactory.getConnection();
@@ -218,7 +218,7 @@ public class RelatorioDAO {
     
     public int getTotalVendasCountPeriodo(LocalDate dataInicio, LocalDate dataFim) throws Exception {
         String sql = "SELECT COUNT(*) as total " +
-                     "FROM Venda " +
+                     "FROM venda " +
                      "WHERE DATE(data_venda) BETWEEN ? AND ?";
         
         try (Connection conn = ConnectionFactory.getConnection();
@@ -238,8 +238,8 @@ public class RelatorioDAO {
     
     public double getTotalFiadosPendentes() throws Exception {
         String sql = "SELECT COALESCE(SUM(pf.valor_parcela), 0) as total " +
-                     "FROM ParcelaFiado pf " +
-                     "JOIN Fiado f ON pf.id_fiado = f.id_fiado " +
+                     "FROM parcelafiado pf " +
+                     "JOIN fiado f ON pf.id_fiado = f.id_fiado " +
                      "WHERE pf.status != 'paga' AND f.status = 'ativo'";
         
         try (Connection conn = ConnectionFactory.getConnection();
@@ -255,8 +255,8 @@ public class RelatorioDAO {
     
     public double getValorTotalEstoque() throws Exception {
         String sql = "SELECT COALESCE(SUM(p.preco * e.quantidade), 0) as total " +
-                     "FROM Produtos p " +
-                     "JOIN Estoque e ON p.id_produto = e.id_produto";
+                     "FROM produtos p " +
+                     "JOIN estoque e ON p.id_produto = e.id_produto";
         
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);

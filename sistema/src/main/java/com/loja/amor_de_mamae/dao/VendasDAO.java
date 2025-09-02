@@ -19,7 +19,7 @@ public class VendasDAO {
             conn.setAutoCommit(false); // Iniciar transação
             
             // Inserir venda
-            String sqlVenda = "INSERT INTO Venda (id_cliente, id_caixa, data_venda, total_venda, forma_pagamento, status_parcelado, num_parcelas) VALUES (?, ?, ?, ?, ?, ?, ?)";
+            String sqlVenda = "INSERT INTO venda (id_cliente, id_caixa, data_venda, total_venda, forma_pagamento, status_parcelado, num_parcelas) VALUES (?, ?, ?, ?, ?, ?, ?)";
             stmtVenda = conn.prepareStatement(sqlVenda, Statement.RETURN_GENERATED_KEYS);
             
             stmtVenda.setObject(1, venda.getId_cliente() > 0 ? venda.getId_cliente() : null);
@@ -40,7 +40,7 @@ public class VendasDAO {
             }
             
             // Inserir itens da venda
-            String sqlItem = "INSERT INTO ItemVenda (id_venda, id_estoque, quantidade, preco_unitario, subtotal) VALUES (?, ?, ?, ?, ?)";
+            String sqlItem = "INSERT INTO itemvenda (id_venda, id_estoque, quantidade, preco_unitario, subtotal) VALUES (?, ?, ?, ?, ?)";
             stmtItem = conn.prepareStatement(sqlItem);
             
             for (ItemVenda item : itens) {
@@ -74,7 +74,7 @@ public class VendasDAO {
     }
     
     private void atualizarEstoque(Connection conn, int idEstoque, int quantidade) throws SQLException {
-        String sql = "UPDATE Estoque SET quantidade = quantidade - ? WHERE id_estoque = ? AND quantidade >= ?";
+        String sql = "UPDATE estoque SET quantidade = quantidade - ? WHERE id_estoque = ? AND quantidade >= ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, quantidade);
             stmt.setInt(2, idEstoque);

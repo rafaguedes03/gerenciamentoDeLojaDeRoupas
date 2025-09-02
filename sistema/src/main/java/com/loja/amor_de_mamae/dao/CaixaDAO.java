@@ -52,7 +52,7 @@ public class CaixaDAO {
 
     
     public Caixa obterCaixaAberto() throws Exception {
-        String sql = "SELECT * FROM Caixa WHERE aberto = true ORDER BY data_abertura DESC LIMIT 1";
+        String sql = "SELECT * FROM caixa WHERE aberto = true ORDER BY data_abertura DESC LIMIT 1";
         try (PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
             
@@ -81,7 +81,7 @@ public class CaixaDAO {
     }
 
     public void fecharCaixa(Caixa caixa) throws Exception {
-        String sql = "UPDATE Caixa SET data_fechamento = ?, saldo_final = ?, valor_vendas = ?, aberto = ? WHERE id_caixa = ?";
+        String sql = "UPDATE caixa SET data_fechamento = ?, saldo_final = ?, valor_vendas = ?, aberto = ? WHERE id_caixa = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             
             stmt.setTimestamp(1, java.sql.Timestamp.valueOf(caixa.getData_fechamento()));

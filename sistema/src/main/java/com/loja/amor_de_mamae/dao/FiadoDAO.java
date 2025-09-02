@@ -14,10 +14,10 @@ public class FiadoDAO {
         List<Fiado> fiados = new ArrayList<>();
         String sql = "SELECT f.id_fiado, f.id_venda, f.status, v.data_venda, c.nome as nome_cliente, " +
                      "v.total_venda, v.num_parcelas, " +
-                     "(SELECT COUNT(*) FROM ParcelaFiado pf WHERE pf.id_fiado = f.id_fiado AND pf.status = 'paga') as parcelas_pagas " +
-                     "FROM Fiado f " +
-                     "JOIN Venda v ON f.id_venda = v.id_venda " +
-                     "JOIN Cliente c ON v.id_cliente = c.id_cliente " +
+                     "(SELECT COUNT(*) FROM parcelafiado pf WHERE pf.id_fiado = f.id_fiado AND pf.status = 'paga') as parcelas_pagas " +
+                     "FROM fiado f " +
+                     "JOIN venda v ON f.id_venda = v.id_venda " +
+                     "JOIN cliente c ON v.id_cliente = c.id_cliente " +
                      "ORDER BY v.data_venda DESC";
         
         try (Connection conn = ConnectionFactory.getConnection();
@@ -44,10 +44,10 @@ public class FiadoDAO {
         List<Fiado> fiados = new ArrayList<>();
         String sql = "SELECT f.id_fiado, f.id_venda, f.status, v.data_venda, c.nome as nome_cliente, " +
                      "v.total_venda, v.num_parcelas, " +
-                     "(SELECT COUNT(*) FROM ParcelaFiado pf WHERE pf.id_fiado = f.id_fiado AND pf.status = 'paga') as parcelas_pagas " +
-                     "FROM Fiado f " +
-                     "JOIN Venda v ON f.id_venda = v.id_venda " +
-                     "JOIN Cliente c ON v.id_cliente = c.id_cliente " +
+                     "(SELECT COUNT(*) FROM parcelafiado pf WHERE pf.id_fiado = f.id_fiado AND pf.status = 'paga') as parcelas_pagas " +
+                     "FROM fiado f " +
+                     "JOIN venda v ON f.id_venda = v.id_venda " +
+                     "JOIN cliente c ON v.id_cliente = c.id_cliente " +
                      "WHERE c.nome LIKE ? " +
                      "ORDER BY v.data_venda DESC";
         
@@ -76,7 +76,7 @@ public class FiadoDAO {
     
     public List<ParcelaFiado> listarParcelasPorFiado(int idFiado) throws Exception {
         List<ParcelaFiado> parcelas = new ArrayList<>();
-        String sql = "SELECT * FROM ParcelaFiado WHERE id_fiado = ? ORDER BY numero_parcela";
+        String sql = "SELECT * FROM parcelafiado WHERE id_fiado = ? ORDER BY numero_parcela";
         
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -100,7 +100,7 @@ public class FiadoDAO {
     }
     
     public void marcarParcelaComoPaga(int idParcela) throws Exception {
-        String sql = "UPDATE ParcelaFiado SET status = 'paga' WHERE id_parcela = ?";
+        String sql = "UPDATE parcelafiado SET status = 'paga' WHERE id_parcela = ?";
         
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -112,8 +112,8 @@ public class FiadoDAO {
     
     public void atualizarStatusFiado(int idFiado) throws Exception {
         // Verificar se todas as parcelas estão pagas
-        String sqlCheck = "SELECT COUNT(*) as pendentes FROM ParcelaFiado WHERE id_fiado = ? AND status != 'paga'";
-        String sqlUpdate = "UPDATE Fiado SET status = ? WHERE id_fiado = ?";
+        String sqlCheck = "SELECT COUNT(*) as pendentes FROM parcelafiado WHERE id_fiado = ? AND status != 'paga'";
+        String sqlUpdate = "UPDATE fiado SET status = ? WHERE id_fiado = ?";
         
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmtCheck = conn.prepareStatement(sqlCheck);
@@ -143,7 +143,7 @@ public class FiadoDAO {
             conn.setAutoCommit(false);
             
             // Verificar se já existe fiado para esta venda
-            String sqlCheck = "SELECT COUNT(*) FROM Fiado WHERE id_venda = ?";
+            String sqlCheck = "SELECT COUNT(*) FROM fiado WHERE id_venda = ?";
             try (PreparedStatement stmtCheck = conn.prepareStatement(sqlCheck)) {
                 stmtCheck.setInt(1, idVenda);
                 try (ResultSet rs = stmtCheck.executeQuery()) {
@@ -154,7 +154,7 @@ public class FiadoDAO {
             }
             
             // Inserir fiado
-            String sqlFiado = "INSERT INTO Fiado (id_venda, status) VALUES (?, 'ativo')";
+            String sqlFiado = "INSERT INTO fiado (id_venda, status) VALUES (?, 'ativo')";
             stmtFiado = conn.prepareStatement(sqlFiado, Statement.RETURN_GENERATED_KEYS);
             stmtFiado.setInt(1, idVenda);
             stmtFiado.executeUpdate();
@@ -171,7 +171,7 @@ public class FiadoDAO {
             double valorParcela = totalVenda / numParcelas;
             
             // Inserir parcelas
-            String sqlParcela = "INSERT INTO ParcelaFiado (id_fiado, numero_parcela, valor_parcela, data_vencimento, status) VALUES (?, ?, ?, ?, 'a vencer')";
+            String sqlParcela = "INSERT INTO parcelafiado (id_fiado, numero_parcela, valor_parcela, data_vencimento, status) VALUES (?, ?, ?, ?, 'a vencer')";
             stmtParcela = conn.prepareStatement(sqlParcela);
             
             LocalDate dataAtual = LocalDate.now();

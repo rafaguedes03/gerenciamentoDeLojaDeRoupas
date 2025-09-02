@@ -13,7 +13,7 @@ public class ProdutoDAO {
     public List<ProdutoEstoqueDAO> buscarProdutosComEstoque(String termo) throws Exception {
         List<ProdutoEstoqueDAO> produtos = new ArrayList<>();
         String sql = "SELECT e.id_estoque, p.id_produto, p.nome, p.codigo, p.preco, e.tamanho, e.quantidade " +
-                     "FROM Produtos p JOIN Estoque e ON p.id_produto = e.id_produto " +
+                     "FROM produtos p JOIN estoque e ON p.id_produto = e.id_produto " +
                      "WHERE (p.nome LIKE ? OR p.codigo LIKE ?) AND e.quantidade > 0 " +
                      "ORDER BY p.nome";
         
@@ -42,7 +42,7 @@ public class ProdutoDAO {
     
     public ProdutoEstoqueDAO buscarProdutoPorIdEstoque(int idEstoque) throws Exception {
         String sql = "SELECT e.id_estoque, p.id_produto, p.nome, p.codigo, p.preco, e.tamanho, e.quantidade " +
-                     "FROM Produtos p JOIN Estoque e ON p.id_produto = e.id_produto " +
+                     "FROM produtos p JOIN estoque e ON p.id_produto = e.id_produto " +
                      "WHERE e.id_estoque = ?";
         
         try (Connection conn = ConnectionFactory.getConnection();
@@ -69,7 +69,7 @@ public class ProdutoDAO {
 
     // metodo para excluir produto
     public void excluir(int idProduto) throws Exception {
-        String sql = "DELETE FROM Produtos WHERE id_produto = ?";
+        String sql = "DELETE FROM produtos WHERE id_produto = ?";
         
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -80,7 +80,7 @@ public class ProdutoDAO {
     }
 
     public void atualizar(Produto produto) throws Exception {
-        String sql = "UPDATE Produtos SET nome = ?, codigo = ?, preco = ? WHERE id_produto = ?";
+        String sql = "UPDATE produtos SET nome = ?, codigo = ?, preco = ? WHERE id_produto = ?";
         
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -94,7 +94,7 @@ public class ProdutoDAO {
     }
 
     public void salvar(Produto produto) throws Exception {
-        String sql = "INSERT INTO Produtos (nome, codigo, preco) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO produtos (nome, codigo, preco) VALUES (?, ?, ?)";
         
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -118,7 +118,7 @@ public class ProdutoDAO {
     public List<ProdutoEstoqueDAO> listarComEstoque() throws Exception {
         List<ProdutoEstoqueDAO> produtos = new ArrayList<>();
         String sql = "SELECT p.id_produto, p.codigo, p.nome, p.preco, e.tamanho, e.quantidade " +
-                     "FROM Produtos p JOIN Estoque e ON p.id_produto = e.id_produto";
+                     "FROM produtos p JOIN estoque e ON p.id_produto = e.id_produto";
         
         try (Connection conn = ConnectionFactory.getConnection();
              Statement stmt = conn.createStatement();

@@ -7,7 +7,7 @@ import java.sql.PreparedStatement;
 public class EstoqueDAO {
 
     public void salvar(Estoque estoque) throws Exception {
-        String sql = "INSERT INTO Estoque (id_produto, tamanho, quantidade) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO estoque (id_produto, tamanho, quantidade) VALUES (?, ?, ?)";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -19,7 +19,7 @@ public class EstoqueDAO {
     }
 
     public void atualizar(Estoque estoque) throws Exception {
-        String sql = "UPDATE Estoque SET tamanho = ?, quantidade = ? WHERE id_produto = ?";
+        String sql = "UPDATE estoque SET tamanho = ?, quantidade = ? WHERE id_produto = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
@@ -31,7 +31,7 @@ public class EstoqueDAO {
     }
 
     public void excluirPorProduto(int idProduto) throws Exception {
-        String sql = "DELETE FROM Estoque WHERE id_produto = ?";
+        String sql = "DELETE FROM estoque WHERE id_produto = ?";
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 

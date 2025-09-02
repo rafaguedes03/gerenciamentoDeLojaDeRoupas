@@ -18,7 +18,7 @@ public class ClienteDAO {
 
     public List<Cliente> buscarClientes(String termo) throws Exception {
         List<Cliente> clientes = new ArrayList<>();
-        String sql = "SELECT * FROM Cliente WHERE nome LIKE ? OR cpf LIKE ? ORDER BY nome";
+        String sql = "SELECT * FROM cliente WHERE nome LIKE ? OR cpf LIKE ? ORDER BY nome";
         
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -43,7 +43,7 @@ public class ClienteDAO {
     }
 
     public Cliente buscarClientePorCpf(String cpf) throws Exception {
-        String sql = "SELECT * FROM Cliente WHERE cpf = ?";
+        String sql = "SELECT * FROM cliente WHERE cpf = ?";
         
         try (Connection conn = ConnectionFactory.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -67,7 +67,7 @@ public class ClienteDAO {
     }
 
     public void inserir(Cliente cliente) throws SQLException {
-        String sql = "INSERT INTO Cliente (nome, cpf, data_nascimento, email) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO cliente (nome, cpf, data_nascimento, email) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, cliente.getNome());
             stmt.setString(2, cliente.getCpf());
@@ -79,7 +79,7 @@ public class ClienteDAO {
 
     public List<Cliente> listarTodos() throws SQLException {
         List<Cliente> lista = new ArrayList<>();
-        String sql = "SELECT * FROM Cliente";
+        String sql = "SELECT * FROM cliente";
         try (PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
 
@@ -98,7 +98,7 @@ public class ClienteDAO {
     }
 
     public void atualizar(Cliente cliente) throws SQLException {
-        String sql = "UPDATE Cliente SET nome = ?, cpf = ?, data_nascimento = ?, email = ? WHERE id_cliente = ?";
+        String sql = "UPDATE cliente SET nome = ?, cpf = ?, data_nascimento = ?, email = ? WHERE id_cliente = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, cliente.getNome());
             stmt.setString(2, cliente.getCpf());
@@ -110,7 +110,7 @@ public class ClienteDAO {
     }
 
     public void deletar(int idCliente) throws SQLException {
-        String sql = "DELETE FROM Cliente WHERE id_cliente = ?";
+        String sql = "DELETE FROM cliente WHERE id_cliente = ?";
         try (PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idCliente);
             stmt.executeUpdate();
