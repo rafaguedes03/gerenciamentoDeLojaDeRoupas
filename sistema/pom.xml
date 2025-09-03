@@ -6,8 +6,8 @@
     <version>1.0-SNAPSHOT</version>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
     </properties>
     <dependencies>
         <!-- JavaFX -->
@@ -43,11 +43,6 @@
             <artifactId>jbcrypt</artifactId>
             <version>0.4</version>
         </dependency>
-        <dependency>
-            <groupId>net.sourceforge.plantuml</groupId>
-            <artifactId>plantuml</artifactId>
-            <version>1.2023.7</version>
-        </dependency>
 
     </dependencies>
     <build>
@@ -71,39 +66,13 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.0</version>
+                <version>3.10.1</version> <!-- atualiza o plugin também -->
                 <configuration>
-                    <release>11</release>
-                    <compilerArgs>
-                        <arg>--add-reads</arg>
-                        <arg>com.loja.amor_de_mamae=ALL-UNNAMED</arg>
-                    </compilerArgs>
+                    <source>21</source>
+                    <target>21</target>
                 </configuration>
             </plugin>
-             <!-- plant uml plugin -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.1.0</version>
-                <executions>
-                    <execution>
-                        <id>generate-uml</id>
-                        <phase>generate-sources</phase>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                        <configuration>
-                            <mainClass>net.sourceforge.plantuml.Run</mainClass>
-                            <arguments>
-                                <argument>-tpng</argument>
-                                <argument>src/main/java</argument>
-                                <argument>-o</argument>
-                                <argument>target/uml</argument>
-                            </arguments>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+
         </plugins>
     </build>
 </project>

@@ -119,7 +119,7 @@ public class MainController {
         // Desconecta o usuário e volta para a tela de login
         try {
             Stage stage = (Stage) btnSair.getScene().getWindow();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/loja/amor_de_mamae/view/login.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/loja/amor_de_mamae/view/Login.fxml"));
             stage.setScene(new Scene(loader.load()));
             stage.setTitle("Amor de Mamãe - Sistema de Vendas");
             stage.setResizable(false);

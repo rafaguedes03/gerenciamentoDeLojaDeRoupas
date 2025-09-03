@@ -105,7 +105,7 @@ public class RelatorioDAO {
         List<RelatorioEstoque> estoqueBaixo = new ArrayList<>();
         String sql = "SELECT p.nome as produto, p.codigo, e.tamanho, e.quantidade, " +
                      "(p.preco * e.quantidade) as valor_total " +
-                     "FROM Produtos p " +
+                     "FROM produtos p " +
                      "JOIN estoque e ON p.id_produto = e.id_produto " +
                      "WHERE e.quantidade <= ? " +
                      "ORDER BY e.quantidade ASC";
@@ -172,7 +172,7 @@ public class RelatorioDAO {
                      "FROM fiado f " +
                      "JOIN venda v ON f.id_venda = v.id_venda " +
                      "JOIN cliente c ON v.id_cliente = c.id_cliente " +
-                     "WHERE EXISTS (SELECT 1 FROM ParcelaFiado pf WHERE pf.id_fiado = f.id_fiado AND pf.status = 'vencida') " +
+                     "WHERE EXISTS (SELECT 1 FROM parcelafiado pf WHERE pf.id_fiado = f.id_fiado AND pf.status = 'vencida') " +
                      "ORDER BY valor_atrasado DESC";
         
         try (Connection conn = ConnectionFactory.getConnection();
